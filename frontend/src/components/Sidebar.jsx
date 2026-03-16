@@ -17,7 +17,7 @@ export const Sidebar = () => {
     <motion.aside
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="w-20 lg:w-64 glass-panel min-h-screen p-4 flex flex-col"
+      className="w-16 lg:w-56 glass-panel min-h-screen p-3 flex flex-col flex-shrink-0"
     >
       <div className="mb-8 text-center">
         <h1 className="text-2xl font-bold glow-text hidden lg:block">Task Manager</h1>

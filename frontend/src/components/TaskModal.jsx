@@ -1,18 +1,39 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
-  const [formData, setFormData] = useState(
-    task || {
-      title: '',
-      description: '',
-      assignedTo: ['saleh'],
-      priority: 'medium',
-      status: 'todo',
-      deadline: '',
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    assignedTo: ['saleh'],
+    priority: 'medium',
+    status: 'todo',
+    deadline: '',
+  });
+
+  // Update form when task changes
+  useEffect(() => {
+    if (task) {
+      setFormData({
+        title: task.title || '',
+        description: task.description || '',
+        assignedTo: task.assignedTo || ['saleh'],
+        priority: task.priority || 'medium',
+        status: task.status || 'todo',
+        deadline: task.deadline || '',
+      });
+    } else {
+      setFormData({
+        title: '',
+        description: '',
+        assignedTo: ['saleh'],
+        priority: 'medium',
+        status: 'todo',
+        deadline: '',
+      });
     }
-  );
+  }, [task, isOpen]);
 
   const toggleUser = (user) => {
     const currentAssigned = Array.isArray(formData.assignedTo) ? formData.assignedTo : [formData.assignedTo];

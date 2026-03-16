@@ -11,12 +11,12 @@ import { Navbar } from './components/Navbar';
 import { Particles } from './components/Particles';
 
 const Layout = ({ children }) => (
-  <div className="flex min-h-screen">
+  <div className="flex min-h-screen max-w-full overflow-x-hidden">
     <Particles />
     <Sidebar />
-    <div className="flex-1 p-6">
+    <div className="flex-1 p-4 lg:p-6 min-w-0">
       <Navbar />
-      <div className="mt-6">{children}</div>
+      <div className="mt-6 max-w-7xl mx-auto">{children}</div>
     </div>
   </div>
 );

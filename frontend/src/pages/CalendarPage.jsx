@@ -16,12 +16,34 @@ export const CalendarPage = () => {
   }, []);
 
   const categorizedTasks = {
-    overdue: tasks.filter((t) => isPast(parseISO(t.deadline)) && t.status !== 'completed'),
-    today: tasks.filter((t) => isToday(parseISO(t.deadline))),
-    tomorrow: tasks.filter((t) => isTomorrow(parseISO(t.deadline))),
+    overdue: tasks.filter((t) => {
+      const taskDate = new Date(t.deadline);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return taskDate < today && t.status !== 'completed';
+    }),
+    today: tasks.filter((t) => {
+      const taskDate = new Date(t.deadline);
+      const today = new Date();
+      taskDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+      return taskDate.getTime() === today.getTime();
+    }),
+    tomorrow: tasks.filter((t) => {
+      const taskDate = new Date(t.deadline);
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      taskDate.setHours(0, 0, 0, 0);
+      tomorrow.setHours(0, 0, 0, 0);
+      return taskDate.getTime() === tomorrow.getTime();
+    }),
     upcoming: tasks.filter((t) => {
-      const date = parseISO(t.deadline);
-      return !isPast(date) && !isToday(date) && !isTomorrow(date);
+      const taskDate = new Date(t.deadline);
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      taskDate.setHours(0, 0, 0, 0);
+      return taskDate > tomorrow;
     }),
   };
 
@@ -52,7 +74,7 @@ export const CalendarPage = () => {
               </span>
               <span className="flex items-center gap-1">
                 <Calendar size={12} />
-                {format(parseISO(task.deadline), 'MMM dd, yyyy')}
+                {format(new Date(task.deadline), 'MMM dd, yyyy')}
               </span>
             </div>
           </div>

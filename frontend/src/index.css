@@ -6,12 +6,19 @@
   body {
     @apply bg-lol-dark text-white;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+  
+  /* Remove horizontal scrollbar */
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
   }
   
   /* Custom Scrollbar Styling */
   ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
   }
   
   ::-webkit-scrollbar-track {
