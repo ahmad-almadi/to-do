@@ -3,14 +3,14 @@ nixPkgs = ["nodejs_18"]
 
 [phases.install]
 cmds = [
-  "cd .. && npm install",
+  "cd .. && npm install && cd server",
   "npm install"
 ]
 
 [phases.build]
 cmds = [
-  "cd .. && npm run build",
-  "ls -la ../dist"
+  "cd .. && npm run build && cd server",
+  "ls -la ../dist || echo 'Dist not found'"
 ]
 
 [start]
