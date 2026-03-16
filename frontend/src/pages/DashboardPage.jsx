@@ -32,14 +32,17 @@ export const DashboardPage = () => {
 
   const userTasks = {
     saleh: tasks.filter((t) => {
+      if (t.status === 'completed') return false;
       const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
       return assigned.includes('saleh');
     }),
     ahmad: tasks.filter((t) => {
+      if (t.status === 'completed') return false;
       const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
       return assigned.includes('ahmad');
     }),
     omar: tasks.filter((t) => {
+      if (t.status === 'completed') return false;
       const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
       return assigned.includes('omar');
     }),
@@ -71,15 +74,19 @@ export const DashboardPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {Object.entries(userTasks).map(([user, userTaskList]) => {
-          const completed = userTaskList.filter((t) => t.status === 'completed').length;
-          const progress = userTaskList.length > 0 ? (completed / userTaskList.length) * 100 : 0;
+          const allUserTasks = tasks.filter((t) => {
+            const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
+            return assigned.includes(user);
+          });
+          const completed = allUserTasks.filter((t) => t.status === 'completed').length;
+          const progress = allUserTasks.length > 0 ? (completed / allUserTasks.length) * 100 : 0;
 
           return (
             <motion.div
               key={user}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="glass-panel m-6 p-6 rounded-xl"
+              className="glass-panel p-6 rounded-xl"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lol-cyan to-lol-purple flex items-center justify-center font-bold text-lg">
