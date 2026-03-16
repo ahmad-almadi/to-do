@@ -24,12 +24,8 @@ const createTables = async () => {
     console.log('✅ Database tables created successfully');
   } catch (error) {
     console.error('❌ Migration failed:', error);
-    throw error;
+    process.exit(1);
   }
 };
 
-// Run migrations and don't exit (for Railway start command)
-createTables().catch(err => {
-  console.error('Migration error:', err);
-  process.exit(1);
-});
+createTables();
