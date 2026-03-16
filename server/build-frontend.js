@@ -5,13 +5,13 @@ console.log('🔨 Building frontend...');
 console.log('Current directory:', process.cwd());
 
 try {
-  // Go to parent and build
-  execSync('cd .. && npm install && npm run build', { stdio: 'inherit' });
+  // Just build, don't install (Railway already installed)
+  execSync('cd .. && npm run build', { stdio: 'inherit' });
   
   // Check if dist was created
   if (existsSync('../dist')) {
     console.log('✅ Frontend built successfully!');
-    console.log('Dist contents:', execSync('ls -la ../dist').toString());
+    execSync('ls -la ../dist', { stdio: 'inherit' });
   } else {
     console.log('❌ Dist folder not created');
   }
