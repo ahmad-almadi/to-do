@@ -79,7 +79,7 @@ export const DashboardPage = () => {
               key={user}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="glass-panel p-6 rounded-xl"
+              className="glass-panel m-6 p-6 rounded-xl"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lol-cyan to-lol-purple flex items-center justify-center font-bold text-lg">
