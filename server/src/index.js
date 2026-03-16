@@ -16,17 +16,17 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from React build
-app.use(express.static(path.join(__dirname, '../../dist')));
-
-// API routes
+// API routes FIRST
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Task Manager API is running' });
 });
 
 app.use('/api/tasks', taskRoutes);
 
-// Serve React app for all other routes
+// Serve static files from React build
+app.use(express.static(path.join(__dirname, '../../dist')));
+
+// Serve React app for all other routes (MUST be last)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../dist/index.html'));
 });
