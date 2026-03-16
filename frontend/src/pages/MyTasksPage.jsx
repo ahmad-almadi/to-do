@@ -6,11 +6,25 @@ import { TaskModal } from '../components/TaskModal';
 import { useTaskActions } from '../hooks/useTaskActions';
 import { subscribeToTasks } from '../services/taskService';
 import { Plus } from 'lucide-react';
+import DeleteConfirmModal from '../components/DeleteConfirmModal';
 
 export const MyTasksPage = () => {
   const [tasks, setTasks] = useState([]);
   const { currentUser } = useAuth();
-  const { isModalOpen, setIsModalOpen, editingTask, setEditingTask, editTask, deleteTask, toggleComplete, saveTask } = useTaskActions();
+  const { 
+    isModalOpen, 
+    setIsModalOpen, 
+    editingTask, 
+    setEditingTask, 
+    editTask, 
+    deleteTask, 
+    deleteConfirmOpen, 
+    taskToDelete, 
+    confirmDelete, 
+    cancelDelete, 
+    toggleComplete, 
+    saveTask 
+  } = useTaskActions();
 
   useEffect(() => {
     const unsubscribe = subscribeToTasks((allTasks) => {
@@ -64,6 +78,13 @@ export const MyTasksPage = () => {
         }}
         onSave={saveTask}
         task={editingTask}
+      />
+
+      <DeleteConfirmModal
+        isOpen={deleteConfirmOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        taskTitle={taskToDelete?.title}
       />
     </div>
   );

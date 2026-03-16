@@ -4,6 +4,8 @@ import * as taskService from '../services/taskService';
 export const useTaskActions = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
 
   const createTask = (taskData) => {
     taskService.addTask(taskData);
@@ -13,10 +15,22 @@ export const useTaskActions = () => {
     taskService.updateTask(taskId, updates);
   };
 
-  const deleteTask = (taskId) => {
-    if (confirm('Delete this task?')) {
-      taskService.deleteTask(taskId);
+  const deleteTask = (task) => {
+    setTaskToDelete(task);
+    setDeleteConfirmOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (taskToDelete) {
+      taskService.deleteTask(taskToDelete.id);
+      setTaskToDelete(null);
+      setDeleteConfirmOpen(false);
     }
+  };
+
+  const cancelDelete = () => {
+    setTaskToDelete(null);
+    setDeleteConfirmOpen(false);
   };
 
   const toggleComplete = (taskId) => {
@@ -42,9 +56,13 @@ export const useTaskActions = () => {
     setIsModalOpen,
     editingTask,
     setEditingTask,
+    deleteConfirmOpen,
+    taskToDelete,
     createTask,
     updateTask: updateTaskData,
     deleteTask,
+    confirmDelete,
+    cancelDelete,
     toggleComplete,
     editTask,
     saveTask,

@@ -24,19 +24,8 @@ app.get('/health', (req, res) => {
 
 app.use('/api/tasks', taskRoutes);
 
-// Serve frontend static files
-const distPath = path.join(__dirname, '../../frontend/dist');
-console.log('Looking for dist at:', distPath);
-
-if (existsSync(distPath)) {
-  console.log('✅ Serving frontend from:', distPath);
-  app.use(express.static(distPath));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'));
-  });
-} else {
-  console.log('⚠️  Frontend dist not found. API only mode.');
-}
+// Backend only - no frontend serving
+console.log('✅ Backend API running in standalone mode');
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

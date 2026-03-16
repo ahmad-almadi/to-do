@@ -5,10 +5,11 @@ import { CheckCircle, Clock, AlertCircle, ListTodo } from 'lucide-react';
 import { TaskCard } from '../components/TaskCard';
 import { useTaskActions } from '../hooks/useTaskActions';
 import { subscribeToTasks } from '../services/taskService';
+import DeleteConfirmModal from '../components/DeleteConfirmModal';
 
 export const DashboardPage = () => {
   const [tasks, setTasks] = useState([]);
-  const { editTask, deleteTask, toggleComplete } = useTaskActions();
+  const { editTask, deleteTask, deleteConfirmOpen, taskToDelete, confirmDelete, cancelDelete, toggleComplete } = useTaskActions();
 
   useEffect(() => {
     const unsubscribe = subscribeToTasks(setTasks);
@@ -119,6 +120,13 @@ export const DashboardPage = () => {
           );
         })}
       </div>
+
+      <DeleteConfirmModal
+        isOpen={deleteConfirmOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        taskTitle={taskToDelete?.title}
+      />
     </div>
   );
 };
