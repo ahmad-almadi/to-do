@@ -24,32 +24,18 @@ app.get('/health', (req, res) => {
 
 app.use('/api/tasks', taskRoutes);
 
-// Find dist folder - try multiple paths
-const distPaths = [
-  path.join(__dirname, '../../dist'),
-  '/app/dist',
-  path.join(process.cwd(), '../dist')
-];
+// Serve frontend static files
+const distPath = path.join(__dirname, '../../frontend/dist');
+console.log('Looking for dist at:', distPath);
 
-let distPath = null;
-for (const p of distPaths) {
-  if (existsSync(p)) {
-    distPath = p;
-    console.log('✅ Found dist at:', p);
-    break;
-  }
-}
-
-if (distPath) {
+if (existsSync(distPath)) {
+  console.log('✅ Serving frontend from:', distPath);
   app.use(express.static(distPath));
   app.get('*', (req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
   });
 } else {
-  console.log('❌ No dist folder found. Checked:', distPaths);
-  app.get('*', (req, res) => {
-    res.json({ error: 'Frontend not found', checked: distPaths });
-  });
+  console.log('⚠️  Frontend dist not found. API only mode.');
 }
 
 app.listen(PORT, () => {
