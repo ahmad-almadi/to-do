@@ -10,8 +10,9 @@ cmds = [
 [phases.build]
 cmds = [
   "npm run build",
-  "ls -la",
-  "ls -la dist || echo 'dist folder not found'"
+  "mkdir -p server/dist",
+  "cp -r dist/* server/dist/",
+  "ls -la server/dist"
 ]
 
 [start]
