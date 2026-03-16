@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { existsSync } from 'fs';
 import taskRoutes from './routes/tasks.js';
 
 dotenv.config();
@@ -23,13 +24,29 @@ app.get('/health', (req, res) => {
 
 app.use('/api/tasks', taskRoutes);
 
-// Serve static files from React build
-app.use(express.static(path.join(__dirname, '../../dist')));
+// Check if dist folder exists
+const distPath = path.join(__dirname, '../../dist');
+console.log('Looking for dist folder at:', distPath);
+console.log('Dist folder exists:', existsSync(distPath));
 
-// Serve React app for all other routes (MUST be last)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../dist/index.html'));
-});
+if (existsSync(distPath)) {
+  // Serve static files from React build
+  app.use(express.static(distPath));
+
+  // Serve React app for all other routes (MUST be last)
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+} else {
+  console.warn('⚠️  Dist folder not found. Frontend will not be served.');
+  app.get('*', (req, res) => {
+    res.json({ 
+      error: 'Frontend not built',
+      message: 'The frontend build folder was not found. Run npm run build first.',
+      distPath: distPath
+    });
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
