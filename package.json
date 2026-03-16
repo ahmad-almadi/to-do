@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npm --prefix ./server start",
-    "install": "npm install && npm --prefix ./server install",
-    "build": "npm run build:frontend",
-    "build:frontend": "vite build"
+    "build": "npm install && vite build && npm --prefix ./server install"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8"
   }
 }
