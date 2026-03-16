@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { existsSync } from 'fs';
 import taskRoutes from './routes/tasks.js';
 
 dotenv.config();
@@ -23,14 +24,33 @@ app.get('/health', (req, res) => {
 
 app.use('/api/tasks', taskRoutes);
 
-// Serve static frontend files
-const distPath = path.join(__dirname, '../../dist');
-app.use(express.static(distPath));
+// Find dist folder - try multiple paths
+const distPaths = [
+  path.join(__dirname, '../../dist'),
+  '/app/dist',
+  path.join(process.cwd(), '../dist')
+];
 
-// Serve index.html for all other routes (SPA)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
-});
+let distPath = null;
+for (const p of distPaths) {
+  if (existsSync(p)) {
+    distPath = p;
+    console.log('✅ Found dist at:', p);
+    break;
+  }
+}
+
+if (distPath) {
+  app.use(express.static(distPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+} else {
+  console.log('❌ No dist folder found. Checked:', distPaths);
+  app.get('*', (req, res) => {
+    res.json({ error: 'Frontend not found', checked: distPaths });
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
