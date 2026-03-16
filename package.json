@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npm --prefix ./server start",
-    "install": "npm --prefix ./server install"
+    "install": "npm install && npm --prefix ./server install",
+    "build": "npm run build:frontend",
+    "build:frontend": "vite build"
   }
 }
