@@ -11,6 +11,17 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'Task Manager API',
+    endpoints: {
+      health: '/health',
+      tasks: '/api/tasks'
+    }
+  });
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Task Manager API is running' });
 });
