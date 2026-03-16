@@ -7,6 +7,33 @@
     @apply bg-lol-dark text-white;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
+  
+  /* Custom Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #0a1428;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #0bc5ea 0%, #0891b2 100%);
+    border-radius: 10px;
+    border: 2px solid #0a1428;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #22d3ee 0%, #06b6d4 100%);
+  }
+  
+  /* Firefox Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #0bc5ea #0a1428;
+  }
 }
 
 @layer utilities {
