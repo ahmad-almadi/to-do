@@ -7,8 +7,10 @@ cmds = ["npm install"]
 [phases.build]
 cmds = [
   "npm run build",
-  "ls -la dist"
+  "echo '=== Build complete, checking dist folder ==='",
+  "ls -la",
+  "ls -la dist || echo 'NO DIST FOLDER'"
 ]
 
 [start]
-cmd = "npm start"
+cmd = "node server/src/db/migrate.js && node server/src/index.js"

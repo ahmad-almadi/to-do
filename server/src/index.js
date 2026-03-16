@@ -24,11 +24,22 @@ app.get('/health', (req, res) => {
 
 app.use('/api/tasks', taskRoutes);
 
-// Check if dist folder exists
-const distPath = path.join(process.cwd(), 'dist');
+// Check if dist folder exists - try multiple locations
+let distPath = path.join(process.cwd(), 'dist');
 console.log('Current working directory:', process.cwd());
-console.log('Looking for dist folder at:', distPath);
-console.log('Dist folder exists:', existsSync(distPath));
+console.log('__dirname:', __dirname);
+console.log('Checking dist at:', distPath);
+console.log('Dist exists:', existsSync(distPath));
+
+// If not found, try relative to server
+if (!existsSync(distPath)) {
+  distPath = path.join(__dirname, '../../dist');
+  console.log('Trying alternate path:', distPath);
+  console.log('Dist exists:', existsSync(distPath));
+}
+
+// List what's actually in the working directory
+console.log('Files in cwd:', require('fs').readdirSync(process.cwd()));
 
 if (existsSync(distPath)) {
   // Serve static files from React build

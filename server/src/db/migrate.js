@@ -2,6 +2,8 @@ import pool from './config.js';
 
 const createTables = async () => {
   try {
+    console.log('🔄 Running database migrations...');
+    
     await pool.query(`
       CREATE TABLE IF NOT EXISTS tasks (
         id SERIAL PRIMARY KEY,
@@ -20,11 +22,14 @@ const createTables = async () => {
     `);
 
     console.log('✅ Database tables created successfully');
-    process.exit(0);
   } catch (error) {
     console.error('❌ Migration failed:', error);
-    process.exit(1);
+    throw error;
   }
 };
 
-createTables();
+// Run migrations and don't exit (for Railway start command)
+createTables().catch(err => {
+  console.error('Migration error:', err);
+  process.exit(1);
+});
