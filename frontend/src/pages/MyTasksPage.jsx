@@ -29,6 +29,7 @@ export const MyTasksPage = () => {
   useEffect(() => {
     const unsubscribe = subscribeToTasks((allTasks) => {
       const userTasks = allTasks.filter((t) => {
+        if (t.status === 'completed') return false;
         const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
         return assigned.includes(currentUser.username);
       });

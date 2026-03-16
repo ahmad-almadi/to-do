@@ -31,14 +31,17 @@ export const TeamBoardPage = () => {
 
   const userTasks = {
     saleh: tasks.filter((t) => {
+      if (t.status === 'completed') return false;
       const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
       return assigned.includes('saleh');
     }),
     ahmad: tasks.filter((t) => {
+      if (t.status === 'completed') return false;
       const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
       return assigned.includes('ahmad');
     }),
     omar: tasks.filter((t) => {
+      if (t.status === 'completed') return false;
       const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
       return assigned.includes('omar');
     }),

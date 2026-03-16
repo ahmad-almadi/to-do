@@ -2,14 +2,13 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { isPast } from 'date-fns';
 import { CheckCircle, Clock, AlertCircle, ListTodo } from 'lucide-react';
-import { TaskCard } from '../components/TaskCard';
+import { TaskCardReadOnly } from '../components/TaskCardReadOnly';
 import { useTaskActions } from '../hooks/useTaskActions';
 import { subscribeToTasks } from '../services/taskService';
-import DeleteConfirmModal from '../components/DeleteConfirmModal';
 
 export const DashboardPage = () => {
   const [tasks, setTasks] = useState([]);
-  const { editTask, deleteTask, deleteConfirmOpen, taskToDelete, confirmDelete, cancelDelete, toggleComplete } = useTaskActions();
+  const { toggleComplete } = useTaskActions();
 
   useEffect(() => {
     const unsubscribe = subscribeToTasks(setTasks);
@@ -114,11 +113,9 @@ export const DashboardPage = () => {
 
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {userTaskList.map((task) => (
-                  <TaskCard
+                  <TaskCardReadOnly
                     key={task.id}
                     task={task}
-                    onEdit={editTask}
-                    onDelete={deleteTask}
                     onToggle={toggleComplete}
                   />
                 ))}
@@ -127,13 +124,6 @@ export const DashboardPage = () => {
           );
         })}
       </div>
-
-      <DeleteConfirmModal
-        isOpen={deleteConfirmOpen}
-        onClose={cancelDelete}
-        onConfirm={confirmDelete}
-        taskTitle={taskToDelete?.title}
-      />
     </div>
   );
 };
