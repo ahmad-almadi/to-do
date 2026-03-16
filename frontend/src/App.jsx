@@ -6,6 +6,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { MyTasksPage } from './pages/MyTasksPage';
 import { TeamBoardPage } from './pages/TeamBoardPage';
 import { CalendarPage } from './pages/CalendarPage';
+import { CompletedPage } from './pages/CompletedPage';
 import { Sidebar } from './components/Sidebar';
 import { Navbar } from './components/Navbar';
 import { Particles } from './components/Particles';
@@ -14,7 +15,7 @@ const Layout = ({ children }) => (
   <div className="flex min-h-screen max-w-full overflow-x-hidden">
     <Particles />
     <Sidebar />
-    <div className="flex-1 p-4 lg:p-6 min-w-0">
+    <div className="flex-1 p-4 lg:p-6 min-w-0 overflow-x-hidden">
       <Navbar />
       <div className="mt-6 max-w-7xl mx-auto">{children}</div>
     </div>
@@ -63,6 +64,16 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <CalendarPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/completed"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <CompletedPage />
                 </Layout>
               </ProtectedRoute>
             }

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, CheckSquare, Users, Calendar, LogOut } from 'lucide-react';
+import { LayoutDashboard, CheckSquare, Users, Calendar, LogOut, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 
@@ -11,6 +11,7 @@ export const Sidebar = () => {
     { to: '/my-tasks', icon: CheckSquare, label: 'My Tasks' },
     { to: '/team', icon: Users, label: 'Team Board' },
     { to: '/calendar', icon: Calendar, label: 'Calendar' },
+    { to: '/completed', icon: CheckCircle, label: 'Completed' },
   ];
 
   return (

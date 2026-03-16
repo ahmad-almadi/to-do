@@ -23,6 +23,7 @@ export const CalendarPage = () => {
       return taskDate < today && t.status !== 'completed';
     }),
     today: tasks.filter((t) => {
+      if (t.status === 'completed') return false;
       const taskDate = new Date(t.deadline);
       const today = new Date();
       taskDate.setHours(0, 0, 0, 0);
@@ -30,6 +31,7 @@ export const CalendarPage = () => {
       return taskDate.getTime() === today.getTime();
     }),
     tomorrow: tasks.filter((t) => {
+      if (t.status === 'completed') return false;
       const taskDate = new Date(t.deadline);
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
@@ -38,6 +40,7 @@ export const CalendarPage = () => {
       return taskDate.getTime() === tomorrow.getTime();
     }),
     upcoming: tasks.filter((t) => {
+      if (t.status === 'completed') return false;
       const taskDate = new Date(t.deadline);
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);

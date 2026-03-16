@@ -23,17 +23,17 @@ export const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(11, 197, 234, 0.3)' }}
-      className={`glass-panel p-4 rounded-lg border-2 ${
+      className={`glass-panel p-5 rounded-lg border-2 ${
         isOverdue ? 'border-red-500 shadow-glow-gold' : priorityColors[task.priority]
       }`}
     >
       <div className="flex justify-between items-start mb-3">
         <h3 className="font-semibold text-lg">{task.title}</h3>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-shrink-0 ml-2">
           <button onClick={() => onEdit(task)} className="text-lol-cyan hover:text-lol-gold transition-colors">
             <Edit size={16} />
           </button>
-          <button onClick={() => onDelete(task.id)} className="text-red-400 hover:text-red-600 transition-colors">
+          <button onClick={() => onDelete(task)} className="text-red-400 hover:text-red-600 transition-colors">
             <Trash2 size={16} />
           </button>
         </div>
