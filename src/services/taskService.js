@@ -1,147 +1,89 @@
-// Hardcoded task data with localStorage persistence
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
-const STORAGE_KEY = 'team_tasks';
+const mapTaskFromAPI = (task) => ({
+  id: task.id.toString(),
+  title: task.title,
+  description: task.description,
+  assignedTo: task.assigned_to || [],
+  priority: task.priority,
+  status: task.status,
+  deadline: task.deadline,
+  createdAt: task.created_at,
+});
 
-const INITIAL_TASKS = [
-  {
-    id: '1',
-    title: 'Follow up with client leads',
-    description: 'Contact the 5 new leads from last week',
-    assignedTo: ['saleh'],
-    priority: 'high',
-    status: 'in progress',
-    deadline: '2026-03-18',
-    createdAt: '2026-03-10T10:00:00.000Z',
-  },
-  {
-    id: '2',
-    title: 'Prepare Q1 sales report',
-    description: 'Compile all sales data and create presentation',
-    assignedTo: ['saleh'],
-    priority: 'medium',
-    status: 'todo',
-    deadline: '2026-03-20',
-    createdAt: '2026-03-12T09:00:00.000Z',
-  },
-  {
-    id: '3',
-    title: 'Update CRM database',
-    description: 'Add new contacts and update existing records',
-    assignedTo: ['ahmad'],
-    priority: 'medium',
-    status: 'in progress',
-    deadline: '2026-03-17',
-    createdAt: '2026-03-11T14:00:00.000Z',
-  },
-  {
-    id: '4',
-    title: 'Schedule team meeting',
-    description: 'Organize weekly sync meeting for next Monday',
-    assignedTo: ['ahmad'],
-    priority: 'low',
-    status: 'completed',
-    deadline: '2026-03-15',
-    createdAt: '2026-03-13T11:00:00.000Z',
-  },
-  {
-    id: '5',
-    title: 'Review pricing strategy',
-    description: 'Analyze competitor pricing and adjust our rates',
-    assignedTo: ['omar'],
-    priority: 'high',
-    status: 'todo',
-    deadline: '2026-03-19',
-    createdAt: '2026-03-14T08:00:00.000Z',
-  },
-  {
-    id: '6',
-    title: 'Client presentation prep',
-    description: 'Create slides for Thursday client meeting',
-    assignedTo: ['omar', 'ahmad'],
-    priority: 'high',
-    status: 'in progress',
-    deadline: '2026-03-16',
-    createdAt: '2026-03-15T10:00:00.000Z',
-  },
-  {
-    id: '7',
-    title: 'Send proposal to ABC Corp',
-    description: 'Finalize and send the proposal document',
-    assignedTo: ['saleh'],
-    priority: 'high',
-    status: 'todo',
-    deadline: '2026-03-14',
-    createdAt: '2026-03-10T15:00:00.000Z',
-  },
-  {
-    id: '8',
-    title: 'Update product catalog',
-    description: 'Add new products and remove discontinued items',
-    assignedTo: ['ahmad'],
-    priority: 'low',
-    status: 'todo',
-    deadline: '2026-03-25',
-    createdAt: '2026-03-12T16:00:00.000Z',
-  },
-  {
-    id: '9',
-    title: 'Joint sales strategy meeting',
-    description: 'Collaborate on new sales approach for Q2',
-    assignedTo: ['omar', 'ahmad', 'saleh'],
-    priority: 'high',
-    status: 'todo',
-    deadline: '2026-03-22',
-    createdAt: '2026-03-16T09:00:00.000Z',
-  },
-];
+const mapTaskToAPI = (task) => ({
+  title: task.title,
+  description: task.description,
+  assigned_to: task.assignedTo,
+  priority: task.priority,
+  status: task.status,
+  deadline: task.deadline,
+});
 
-// Initialize tasks in localStorage if not exists
-const initializeTasks = () => {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (!stored) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_TASKS));
-    return INITIAL_TASKS;
-  }
-  return JSON.parse(stored);
-};
-
-export const getTasks = () => {
-  return initializeTasks();
-};
-
-export const addTask = (task) => {
-  const tasks = getTasks();
-  const newTask = {
-    ...task,
-    id: Date.now().toString(),
-    createdAt: new Date().toISOString(),
-  };
-  tasks.push(newTask);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-  return newTask;
-};
-
-export const updateTask = (taskId, updates) => {
-  const tasks = getTasks();
-  const index = tasks.findIndex((t) => t.id === taskId);
-  if (index !== -1) {
-    tasks[index] = { ...tasks[index], ...updates };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+export const getTasks = async () => {
+  try {
+    const response = await fetch(`${API_URL}/tasks`);
+    if (!response.ok) throw new Error('Failed to fetch tasks');
+    const tasks = await response.json();
+    return tasks.map(mapTaskFromAPI);
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    return [];
   }
 };
 
-export const deleteTask = (taskId) => {
-  const tasks = getTasks();
-  const filtered = tasks.filter((t) => t.id !== taskId);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+export const addTask = async (task) => {
+  try {
+    const response = await fetch(`${API_URL}/tasks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(mapTaskToAPI(task)),
+    });
+    if (!response.ok) throw new Error('Failed to create task');
+    const newTask = await response.json();
+    return mapTaskFromAPI(newTask);
+  } catch (error) {
+    console.error('Error creating task:', error);
+    throw error;
+  }
+};
+
+export const updateTask = async (taskId, updates) => {
+  try {
+    const response = await fetch(`${API_URL}/tasks/${taskId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(mapTaskToAPI(updates)),
+    });
+    if (!response.ok) throw new Error('Failed to update task');
+    const updatedTask = await response.json();
+    return mapTaskFromAPI(updatedTask);
+  } catch (error) {
+    console.error('Error updating task:', error);
+    throw error;
+  }
+};
+
+export const deleteTask = async (taskId) => {
+  try {
+    const response = await fetch(`${API_URL}/tasks/${taskId}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) throw new Error('Failed to delete task');
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    throw error;
+  }
 };
 
 export const subscribeToTasks = (callback) => {
-  callback(getTasks());
-  
-  const interval = setInterval(() => {
-    callback(getTasks());
-  }, 1000);
+  const fetchTasks = async () => {
+    const tasks = await getTasks();
+    callback(tasks);
+  };
+
+  fetchTasks();
+  const interval = setInterval(fetchTasks, 5000);
 
   return () => clearInterval(interval);
 };
