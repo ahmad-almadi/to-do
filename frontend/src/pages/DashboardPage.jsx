@@ -71,7 +71,7 @@ export const DashboardPage = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 overflow-x-hidden">
         {Object.entries(userTasks).map(([user, userTaskList]) => {
           const allUserTasks = tasks.filter((t) => {
             const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
@@ -85,7 +85,7 @@ export const DashboardPage = () => {
               key={user}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="glass-panel p-6 rounded-xl"
+              className="glass-panel p-6 rounded-xl min-w-0"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-lol-cyan to-lol-purple flex items-center justify-center font-bold text-lg">
@@ -111,7 +111,7 @@ export const DashboardPage = () => {
                 </div>
               </div>
 
-              <div className="space-y-3 max-h-96 overflow-y-auto">
+              <div className="space-y-3 max-h-96 overflow-y-auto overflow-x-hidden pr-2">
                 {userTaskList.map((task) => (
                   <TaskCardReadOnly
                     key={task.id}

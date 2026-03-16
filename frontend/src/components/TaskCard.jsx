@@ -23,7 +23,7 @@ export const TaskCard = ({ task, onEdit, onDelete, onToggle }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(11, 197, 234, 0.3)' }}
-      className={`glass-panel p-5 m-2 rounded-lg border-2 ${
+      className={`glass-panel p-5 rounded-lg border-2 w-full ${
         isOverdue ? 'border-red-500 shadow-glow-gold' : priorityColors[task.priority]
       }`}
     >
