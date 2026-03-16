@@ -27,6 +27,6 @@ app.use('/api/tasks', taskRoutes);
 // Backend only - no frontend serving
 console.log('✅ Backend API running in standalone mode');
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });

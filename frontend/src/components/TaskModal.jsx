@@ -100,21 +100,35 @@ export const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
                 <select
                   value={formData.priority}
                   onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                  className="px-4 py-2 bg-lol-blue/50 border border-lol-cyan/30 rounded-lg focus:outline-none focus:border-lol-cyan"
+                  className="px-4 py-2 bg-lol-dark border border-lol-cyan/30 rounded-lg focus:outline-none focus:border-lol-cyan text-white appearance-none cursor-pointer hover:border-lol-cyan transition-colors"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230bc5ea' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 0.75rem center',
+                    backgroundSize: '1.25em 1.25em',
+                    paddingRight: '2.5rem'
+                  }}
                 >
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
+                  <option value="low" className="bg-lol-dark text-white">Low</option>
+                  <option value="medium" className="bg-lol-dark text-white">Medium</option>
+                  <option value="high" className="bg-lol-dark text-white">High</option>
                 </select>
 
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="px-4 py-2 bg-lol-blue/50 border border-lol-cyan/30 rounded-lg focus:outline-none focus:border-lol-cyan"
+                  className="px-4 py-2 bg-lol-dark border border-lol-cyan/30 rounded-lg focus:outline-none focus:border-lol-cyan text-white appearance-none cursor-pointer hover:border-lol-cyan transition-colors"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230bc5ea' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 0.75rem center',
+                    backgroundSize: '1.25em 1.25em',
+                    paddingRight: '2.5rem'
+                  }}
                 >
-                  <option value="todo">To Do</option>
-                  <option value="in progress">In Progress</option>
-                  <option value="completed">Completed</option>
+                  <option value="todo" className="bg-lol-dark text-white">To Do</option>
+                  <option value="in progress" className="bg-lol-dark text-white">In Progress</option>
+                  <option value="completed" className="bg-lol-dark text-white">Completed</option>
                 </select>
               </div>
 

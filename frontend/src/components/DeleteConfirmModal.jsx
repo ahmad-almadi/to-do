@@ -31,7 +31,8 @@ const DeleteConfirmModal = ({ isOpen, onClose, onConfirm, taskTitle }) => {
 
             <div className="mb-6 p-4 bg-lol-blue/30 rounded-lg border border-red-500/30">
               <p className="text-gray-300">
-                Are you sure you want to delete <span className="font-semibold text-white">"{taskTitle}"</span>?
+                Are you sure you want to delete{' '}
+                <span className="font-semibold text-white">"{taskTitle || 'this task'}"</span>?
               </p>
             </div>
 
