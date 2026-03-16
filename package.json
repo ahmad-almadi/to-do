@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server/src/index.js",
-    "build": "vite build"
+    "build": "vite build",
+    "postbuild": "ls -la && ls -la dist"
   },
   "dependencies": {
     "react": "^18.2.0",

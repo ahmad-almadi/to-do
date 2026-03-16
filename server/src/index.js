@@ -25,7 +25,8 @@ app.get('/health', (req, res) => {
 app.use('/api/tasks', taskRoutes);
 
 // Check if dist folder exists
-const distPath = path.join(__dirname, '../../dist');
+const distPath = path.join(process.cwd(), 'dist');
+console.log('Current working directory:', process.cwd());
 console.log('Looking for dist folder at:', distPath);
 console.log('Dist folder exists:', existsSync(distPath));
 
